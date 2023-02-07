@@ -1,16 +1,11 @@
 import { PrismaClient } from "@prisma/client";
-import moment from "moment";
+import moment from "moment-jalaali";
 const prisma = new PrismaClient();
 
-const Query = async () => {
-  const result = await prisma.contact.findMany();
-  return result;
-};
-
 export default async function handler(req, res) {
-  const data = await Query();
+  const data = await prisma.contact.findMany();
   data.map((d) => {
-    d.birthDate = moment(d.birthDate).format("YYYY MM DD");
+    d.birthDate = moment(d.birthDate).format("jYYYY/jMM/jDD");
   });
   res.status(200).json(data);
 }

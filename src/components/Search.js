@@ -1,19 +1,9 @@
-import React, { useState } from "react";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import IconButton from "@mui/material/IconButton";
 
-const Search = () => {
-  const [search, setSearch] = useState("");
-  const inputHandler = (e) => {
-    setSearch(e.target.value);
-  };
-
-  const searchHandler = () => {
-  
-  };
-
+const Search = (props) => {
   return (
     <Box>
       <TextField
@@ -22,11 +12,11 @@ const Search = () => {
         variant='standard'
         size='small'
         margin='normal'
-        onChange={inputHandler}
-        value={search}
+        onChange={props.inputFn}
+        value={props.val}
         InputProps={{
           startAdornment: (
-            <IconButton onClick={searchHandler}>
+            <IconButton onClick={props.searchFn}>
               <SearchIcon />
             </IconButton>
           ),

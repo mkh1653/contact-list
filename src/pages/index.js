@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Head from "next/head";
 import Search from "../components/Search";
 import Contact from "../components/Contacts";
@@ -21,6 +22,28 @@ export const getStaticProps = async (context) => {
 };
 
 export default function Home({ contacts }) {
+  const [search, setSearch] = useState("");
+  const [contactList, setContactList] = useState(contacts);
+  const inputHandler = (e) => {
+    setSearch(e.target.value);
+    searchHandler(e.target.value);
+  };
+
+  const searchHandler = (searched) => {
+    console.log("search", searched, "list", contactList);
+    if (searched.length) {
+      const newContacts = contacts.filter((contact) => {
+        return (
+          contact.name.includes(searched) ||
+          contact.number.includes(searched) ||
+          contact.birthDate.includes(searched)
+        );
+      });
+      setContactList(newContacts);
+    } else {
+      setContactList(contacts);
+    }
+  };
   return (
     <>
       <Head>
@@ -42,13 +65,38 @@ export default function Home({ contacts }) {
             <Grid item xs={12} sm={7} md={5}>
               <Card elevation={7}>
                 <CardContent>
-                  <Search />
-                  <Contact contacts={contacts} />
+                  <Search
+                    inputFn={inputHandler}
+                    val={search}
+                    searchFn={searchHandler}
+                  />
+                  <Contact contacts={contactList} />
                 </CardContent>
               </Card>
             </Grid>
             <Grid item sm={5} md={7}>
-              <div className={styles.image}></div>
+              <img className={styles.image} src='/contact.svg' />
+              <Typography variant='body2'>
+                <span>
+                  کاربر گرامی با استفاده از این برنامه به راحتی می‌توانید مخاطب
+                  جدید به لیست مخاطبان خود افزوده یا آن ها را ویرایش کنید.
+                </span>
+                <br />
+                <span>
+                  لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و
+                  با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و
+                  مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی
+                  تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای
+                  کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و
+                  آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم
+                  افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص
+                  طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این
+                  صورت می توان امید داشت که تمام و دشواری موجود در ارائه
+                  راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل
+                  حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای
+                  موجود طراحی اساسا مورد استفاده قرار گیرد.
+                </span>
+              </Typography>
             </Grid>
           </Grid>
         </Container>
