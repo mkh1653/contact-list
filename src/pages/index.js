@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import Search from "../components/Search";
 import Contact from "../components/Contacts";
 import Container from "@mui/material/Container";
@@ -8,8 +9,11 @@ import Paper from "@mui/material/Paper";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import styles from "@/styles/Home.module.css";
+import Fab from "@mui/material/Fab";
 import axios from "axios";
+
+import styles from "@/styles/Home.module.css";
+import AddIcon from "@mui/icons-material/Add";
 
 export const getStaticProps = async (context) => {
   const fetch = await axios("http://localhost:3000/api/contacts");
@@ -24,6 +28,7 @@ export const getStaticProps = async (context) => {
 export default function Home({ contacts }) {
   const [search, setSearch] = useState("");
   const [contactList, setContactList] = useState(contacts);
+  const router = useRouter();
   const inputHandler = (e) => {
     setSearch(e.target.value);
     searchHandler(e.target.value);
@@ -64,7 +69,14 @@ export default function Home({ contacts }) {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={7} md={5}>
               <Card elevation={7}>
-                <CardContent>
+                <CardContent sx={{ position: "relative" }}>
+                  <Fab
+                    className={styles.new}
+                    size='large'
+                    color='success'
+                    onClick={() => router.push(`/new-contact`)}>
+                    <AddIcon />
+                  </Fab>
                   <Search
                     inputFn={inputHandler}
                     val={search}
@@ -77,25 +89,21 @@ export default function Home({ contacts }) {
             <Grid item sm={5} md={7}>
               <img className={styles.image} src='/contact.svg' />
               <Typography variant='body2'>
-                <span>
-                  کاربر گرامی با استفاده از این برنامه به راحتی می‌توانید مخاطب
-                  جدید به لیست مخاطبان خود افزوده یا آن ها را ویرایش کنید.
-                </span>
-                <br />
-                <span>
-                  لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و
-                  با استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و
-                  مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی
-                  تکنولوژی مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای
-                  کاربردی می باشد، کتابهای زیادی در شصت و سه درصد گذشته حال و
-                  آینده، شناخت فراوان جامعه و متخصصان را می طلبد، تا با نرم
-                  افزارها شناخت بیشتری را برای طراحان رایانه ای علی الخصوص
-                  طراحان خلاقی، و فرهنگ پیشرو در زبان فارسی ایجاد کرد، در این
-                  صورت می توان امید داشت که تمام و دشواری موجود در ارائه
-                  راهکارها، و شرایط سخت تایپ به پایان رسد و زمان مورد نیاز شامل
-                  حروفچینی دستاوردهای اصلی، و جوابگوی سوالات پیوسته اهل دنیای
-                  موجود طراحی اساسا مورد استفاده قرار گیرد.
-                </span>
+                کاربر گرامی با استفاده از این برنامه به راحتی می‌توانید مخاطب
+                جدید به لیست مخاطبان خود افزوده یا آن ها را ویرایش کنید.
+              </Typography>
+              <Typography variant='body2'>
+                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
+                استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله
+                در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد
+                نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد،
+                کتابهای زیادی در شصت و سه درصد گذشته حال و آینده، شناخت فراوان
+                جامعه و متخصصان را می طلبد، تا با نرم افزارها شناخت بیشتری را
+                برای طراحان رایانه ای علی الخصوص طراحان خلاقی، و فرهنگ پیشرو در
+                زبان فارسی ایجاد کرد، در این صورت می توان امید داشت که تمام و
+                دشواری موجود در ارائه راهکارها، و شرایط سخت تایپ به پایان رسد و
+                زمان مورد نیاز شامل حروفچینی دستاوردهای اصلی، و جوابگوی سوالات
+                پیوسته اهل دنیای موجود طراحی اساسا مورد استفاده قرار گیرد.
               </Typography>
             </Grid>
           </Grid>
